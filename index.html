@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WebViewAppStatic</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+ <!-- MINI: Used to communicate with mini app. Have to include the script body here otherwise we get my. not recognized errors <START>-->
+
+    <script src="https://gw.alipayobjects.com/os/??s/prod/web-view/common-15524.js,s/prod/web-view/index-16274.js"></script>
+
+    <script id="messageSend">
+
+        console.log('hello')
+        
+        function sendMessage(data){
+
+            console.log('SEND MESSAGE')
+
+            try {
+                my.postMessage(data);
+                console.log('SEND MESSAGE SUCCESS')
+
+            } catch(error) {
+                //Prevent my. from throwing error in browser
+                console.log('CANNOT SEND MESSAGE')
+
+            }
+        }
+    </script>
+
+    <script id="messageReceive">
+
+        try {
+            my.onMessage = function(e){
+                console.log('INCOMING MESSAGE')
+
+                localStorage.setItem('message',JSON.stringify(e))
+                document.getElementById('messageReceiveListener').innerText = e;
+            }
+        } catch(error) {
+            console.log('CANNOT RECEIVE MESSAGE')
+
+            //Prevent my. from throwing error in browser
+        }
+    </script>
+
+    <input id="messageReceiveListener" hidden></input>
+    
+
+    <!-- Get whether running in mini app environment -->
+
+      <!-- MINI-END -->
+
+</head>
+<body>
+  <h1>Static Web App</h1>
+
+  <h1>Is this in a Mini App? </h1>
+  <h1 id="isMiniApp"></h1>
+  <h1 id="messageReceiveListener"></h1>
+
+  <button onclick="sendMessage()">SEND MESSAGE</button>
+
+
+
+</body>
+
+<script>
+    try {
+        my.getEnv((res) => {localStorage.setItem('inMiniProgram', res.miniprogram);})
+        // alert('IN MINI-APP')
+        document.getElementById("textContentOutput")
+        document.getElementById("isMiniApp").innerText = 'YES';
+    } catch(error) {
+        localStorage.setItem('inMiniProgram', false)
+        // alert('NOT IN MINI-APP')
+        document.getElementById("isMiniApp").innerText = 'NO';
+
+    }
+  </script>
+
+
+
+</html>
