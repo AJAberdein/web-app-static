@@ -55,10 +55,10 @@
       <!-- MINI-END -->
 
 </head>
-<body>
+<body style="background-color: white;">
   <h1>Static Web App</h1>
 
-  <h1>Is this in a Mini App? </h1>
+  <p>Is this in a Mini App? </p>
   <h1 id="isMiniApp"></h1>
   <h1 id="messageReceiveListener"></h1>
 
@@ -75,6 +75,7 @@
         document.getElementById("textContentOutput")
         document.getElementById("isMiniApp").innerText = 'YES';
     } catch(error) {
+        alert(error)
         localStorage.setItem('inMiniProgram', false)
         // alert('NOT IN MINI-APP')
         document.getElementById("isMiniApp").innerText = 'NO';
